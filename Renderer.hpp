@@ -16,7 +16,6 @@
 #define OFFSET_DRAWTEXT 0x1405B15B0 
 #define OFFSET_DXRENDERER 0x1446C96A8 
 #define OFFSET_DXRENDERER_VTABLE_ENDFRAME 9
-
 #endif
 
 struct Color32 {
@@ -25,7 +24,6 @@ struct Color32 {
 	byte b;
 	byte a;
 };
-
 struct Vec2 {
 	float x;
 	float y;
@@ -36,10 +34,8 @@ void CreateVTableHook(void* pVTable, void* pHook, T& t, uint32_t iIndex) {
 	DWORD64** ppVTable = (DWORD64**)pVTable;
 	DWORD dwOld = 0;
 	VirtualProtect((void*)((*ppVTable) + iIndex), sizeof(PDWORD64), PAGE_EXECUTE_READWRITE, &dwOld);
-
 	PBYTE pOrig = ((PBYTE)(*ppVTable)[iIndex]);
 	(*ppVTable)[iIndex] = (DWORD64)pHook;
-
 	VirtualProtect((void*)((*ppVTable) + iIndex), sizeof(PDWORD64), dwOld, &dwOld);
 	t = (T)pOrig;
 }
